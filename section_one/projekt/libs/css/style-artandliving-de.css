@@ -1,0 +1,5 @@
+@CHARSET "UTF-8";
+
+.categoryBoxBtn {background:url(../../loimg/buttons/btn-zur-kollektion.png);background-image:linear-gradient(transparent,transparent),url(../../loimg/buttons/btn-zur-kollektion.svg);background-position:center center;background-size:150px 35px;background-repeat:no-repeat;width:150px;}
+.productBoxBtn {background:url(../../loimg/buttons/btn-zum-produkt.png);background-image:linear-gradient(transparent,transparent),url(../../loimg/buttons/btn-zum-produkt.svg);background-position:center center;background-size:150px 35px;background-repeat:no-repeat;width:150px;}
+.teaserInfoBox .teaserBoxBtn {background:url(../../loimg/buttons/btn-jetzt-lesen.png);background-image:linear-gradient(transparent,transparent),url(../../loimg/buttons/btn-jetzt-lesen.svg);background-position:center center;background-size:150px 35px;background-repeat:no-repeat;}
