@@ -17,6 +17,7 @@
 .productBoxHeadline, .categoryBoxHeadline {display:block;margin:10px 0px;font-family:'Open Sans Italic', sans-serif;font-weight:normal;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.4;margin:10px 0px;}
 .productBox-4, .productBox-5 {line-height:1;}
 .categoryBoxBtn, .otherBoxBtn {display:block;height:35px;margin:25px auto;text-align:center;}
+.discoverBoxBtn {display:block;margin:25px auto;text-align:center;width:30%}
 .productBoxBtn {display:block;height:35px;margin:18px auto 10px;text-align:center;}
 /*.categoryBoxBtn:hover, .otherBoxBtn:hover, .productBoxBtn:hover {text-decoration:none;}*/
 @media (min-width:1250px)
@@ -44,17 +45,20 @@
 }
 
 /* Stylistische Elemente der Wohntrends */
-.artandliving .imageHeadline {position:relative;width:100%;text-align:center;border-bottom:1px solid #aaa;line-height:0.1em;font-weight:normal;}
-.artandliving .imageHeadline span {background-color:#f9f8f4;display:block;margin:0px auto -15px;padding:0px 30px;}
+.artandliving .imageHeadline {position:relative;width:100%;text-align:center;border-bottom:1px solid #aaa/*GelbFF0-original:#aaa*/;line-height:0.1em;font-weight:normal;}
+.artandliving .imageHeadline span {width:15%;background-color:#f9f8f4;display:block;margin:0px auto -15px;padding:0px 30px;}
+.artandliving .imageHeadline span img {border-bottom: none}
 
 .artandliving p {font-family:'Open Sans Italic', sans-serif;font-weight:normal;}
 .artandliving p a, .artandliving p a:hover {text-decoration:underline;}
-.artandliving p.footnote {font-family:'Open Sans', sans-serif;line-height:170%;text-align:left;}
+.artandliving p.footnote {font-family:'Open Sans', sans-serif;line-height:170%;text-align:right;}
 .artandliving p.footnote a, .artandliving p.footnote a:hover {font-family:'Open Sans Italic', sans-serif;text-decoration:none;}
 .artandliving p.footnote em, .artandliving p.footnote a {padding-right:5px;}
 
 .artandliving h1, .artandliving h2, .artandliving h3, .artandliving h4 {font-family:'Droid Serif Italic', sans-serif;font-weight:normal;text-align:center;}
 .artandliving .pageIntro {font-family:'Open Sans Italic', sans-serif;font-weight:normal;text-align:center;}
+
+.artandliving .backdrop {background-color:#3463af}
 
 /* Schriftgrößen */
 @media (min-width:1250px)
@@ -94,7 +98,7 @@
 }
 
 /* Künstlerstorys */
-.artiststory h1 {font-family:'Droid Serif Italic', sans-serif;font-weight:normal;text-align:center;}
+.artiststory h1 {color:#3463af;font-family:'Droid Serif Italic', sans-serif;font-weight:normal;text-align:center;}
 .artiststory h2, .artiststory h3, .artiststory h4 {font-family:'Open Sans Italic', sans-serif;font-weight:normal;text-align:center;}
 .artiststory .pageIntro {font-family:'Open Sans Italic', sans-serif;font-weight:normal;text-align:center;}
 .artiststory .whiteBox {line-height:150%;text-align:justify;}
