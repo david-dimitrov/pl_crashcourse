@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<form action="index.php" methode = "get">
+		<fieldset>
+			<input type = "radio" id = "titleBefore" name = "querry" value = "titleBefore">
+			<label for = "titleBefore">Filmtitel suchen, die vor einem Jahr erschienen sind</label>
+			<br>
+			<input type = "radio" id = "genrePerActor" name = "querry" value = "genrePerActor">
+			<label for = "genrePerActor">Genre suchen, in denen ein gegebener Schauspieler mitspielte</label>
+			<br>
+			<input type = "radio" id = "regisseurPerActor" name = "querry" value = "regisseurPerActor">
+			<label for = "regisseurPerActor">Regisseure suchen, unter denen ein gegebener Schauspieler arbeitete</label>
+		</fieldset>
+		<label for = "vname">
+			Vorname:
+			<input id = "vname" name = "vname" placeholder = "Brad">
+		</label>
+		<label for = "nname">
+			Nachname:
+			<input id = "nname" name = "nname" placeholder = "Pitt">		
+			des Schauspielers
+		</label>
+		<br>
+		<label for = "year">
+			Jahr:
+			<input id = "year" name = "year" placeholder = "1999">
+		</label>
+		<input type = "submit">
+	</form>
+</body>
+</html>

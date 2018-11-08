@@ -1,4 +1,5 @@
 <?php
+
 $dataSets = file("Artothek.csv");
 $key = "Orientation";
 $keyName = $key;

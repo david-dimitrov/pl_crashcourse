@@ -2,5 +2,6 @@
 require_once ('lib/smtemplate.php');
 
 $tpl = new SMTemplate();
-$tpl->render('start');
+
+$tpl->render('view_start');
 ?>
