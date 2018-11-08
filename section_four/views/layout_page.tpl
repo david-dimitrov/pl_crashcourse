@@ -11,9 +11,11 @@
          </header>
 
          <div>
-             {$__content}
+            {$__conten}
         </div>
-
+		<div>
+			{$__secondContent}
+		</div>
          <footer>
              <hr />
              <h2>Footer Content</h2>

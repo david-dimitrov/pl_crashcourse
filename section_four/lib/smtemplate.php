@@ -21,7 +21,8 @@ class SMTemplate extends Smarty{
          }
     
          $content = $this->fetch($template . '.tpl');
-         $this->assign('__content', $content);
+         $this->assign('__conten', $content);
+         $this->assign('__secondContent', $content);
          
          $this->display($layout . '.tpl');
     }
