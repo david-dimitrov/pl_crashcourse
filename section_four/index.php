@@ -3,5 +3,7 @@ require_once ('lib/smtemplate.php');
 
 $tpl = new SMTemplate();
 
-$tpl->render('view_start');
+$data = array("data" => "Das hier sind daten");
+
+$tpl->render('view_start',$data);
 ?>

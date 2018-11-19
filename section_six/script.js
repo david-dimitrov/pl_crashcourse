@@ -1,15 +1,15 @@
 $( document ).ready(function() {
 	//Hier jQuery-Code eintragen
-	$("button#btn-flower").click(function() {
-
-	    $.ajax({
+	$("button#btn-flower").click(function () {
+		
+		$.ajax({
 	        type: "POST",
 	        url: "index.php",
 	        data: {
 	            method: "flowers"
 	        },
 	        success: function(content) {
-	            $("#data-list").html(content);
+	        	$("#data-list").html(content);
 	        }
 	    });
 

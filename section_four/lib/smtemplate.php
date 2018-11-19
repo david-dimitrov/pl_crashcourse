@@ -19,7 +19,7 @@ class SMTemplate extends Smarty{
          foreach($data as $key => $value){
              $this->assign($key, $value);
          }
-    
+         
          $content = $this->fetch($template . '.tpl');
          $this->assign('__conten', $content);
          $this->assign('__secondContent', $content);

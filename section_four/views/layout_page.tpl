@@ -12,10 +12,10 @@
 
          <div>
             {$__conten}
-        </div>
-		<div>
+         </div>
+		 <div>
 			{$__secondContent}
-		</div>
+		 </div>
          <footer>
              <hr />
              <h2>Footer Content</h2>

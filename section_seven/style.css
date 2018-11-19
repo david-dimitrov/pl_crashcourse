@@ -1,1 +1,21 @@
 @CHARSET "UTF-8";
+
+body{}
+
+.loginForm{} /*Das Loginformular*/
+.loginNameDisplay{} /*Ersetzt Loginforumlar bei Erfolg*/
+.loginLabel{} /*Bei negativem Return des Login Formulares, erscheinende Textbox*/
+.loginMsgSuccess{Background-color:#EFE}
+.loginMsgPwFail{Background-color:#FEE}
+.loginMsgUserDoesntExist{Background-color:#FFE}
+.loginMsgUserOverlap{Background-color:#EEF}
+
+.filmList td, .filmList th{padding:0em 1em 0em 1em; textalign:center}
+.filmList td{border: 1px solid black}
+.filmList th{border: 3px solid red}
+
+.obsolete{display: none}
+
+.filmDetail{}
+
+.commentSection{}
