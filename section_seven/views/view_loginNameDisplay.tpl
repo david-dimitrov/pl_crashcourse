@@ -1,0 +1,1 @@
+Sie sind angemeldet {$username} <form action="logout.php"><button id="btn-logout" type="submit">logout</button></form>
