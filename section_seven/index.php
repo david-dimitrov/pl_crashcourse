@@ -8,10 +8,18 @@ $dataBase = new DB();
 $_SESSION["username"] = $_POST["username"] ?? null;
 $_SESSION["password"] = $_POST["password"] ?? ""; //GGF: Md5 -<-hier-<- implementieren
 $_SESSION["firstVisit"] = $_SESSION["firstVisit"] ?? true;
+$formType = $_POST["action"] ?? null;
 
 //Berechnung
 //Anmeldestatus
-$status = $dataBase->checkLogin($_SESSION["username"], $_SESSION["password"]);
+if ($formType == "login")
+{
+    $status = $dataBase->checkLogin($_SESSION["username"], $_SESSION["password"]);
+}
+elseif ($formType == "register")
+{
+    $status = $dataBase->register($_SESSION["username"], $_SESSION["password"]);
+}
 
 //Falls anmeldung erfolglos bleibt, soll Nutzername 'null' sein, damit abfragen während dem Nachladen richtig ausgeführt werden können.
 if (!$status["boolLogin"])

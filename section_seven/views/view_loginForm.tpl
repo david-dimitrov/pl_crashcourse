@@ -5,5 +5,6 @@
 	<label for = "password">
 		<input type = "password" id = "password" name = "password" placeholder = "********">
 	</label>
-	<input type = "submit">
+	<input type = "submit" name="action" value="login">
+	<input type = "submit" name="action" value="registrieren">
 </form>

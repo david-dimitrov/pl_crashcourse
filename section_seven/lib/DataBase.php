@@ -63,6 +63,32 @@ class DB{
         return  $return;
     }
     
+    function register($username, $password)
+    {
+        $password = md5($password);
+        //Aufbau der Datenbankverbindung
+        $dbh = new PDO('mysql:host=localhost;dbname=pl_crashcourse', "root", "");
+        
+        if (!isset($username))
+        {
+            $status = array("boolLogin"     => false,
+                "returnMsg"     => "Ihr Username muss eindeutig sein!",
+                "loginMsgStyle" => "");
+        }
+        
+        //Abfrage ob Nutzer existiert
+        $querry = $dbh->prepare("SELECT uid,name,password FROM `user` WHERE name = ?");
+        $querry->execute(array($username));
+        $userCount = $querry->rowCount();
+        $querry = $querry->fetch();
+
+        //
+        
+        //Ende der DB verbindung
+        $dbh = null;
+        return $status;
+    }
+    
     /**
      * Stellt Verbindung mit Datenbank her und tut die Date, die für die Haupseite von Nöten sind fetchen.
      * @return PDOStatement Liste der mögliche indizes für ein Item aus dem PDO:

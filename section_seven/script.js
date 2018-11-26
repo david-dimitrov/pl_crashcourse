@@ -41,7 +41,9 @@ $( document ).ready(function() {
 		$("div#contentDivDetail").on('click','button#btn-editUsercomment', editComment);
 		$("div#contentDivDetail").off('click','button#btn-sendNewUsercomment');
 		$("div#contentDivDetail").on('click','button#btn-sendNewUsercomment', sendComment);
-
+		
+		window.scrollTo(0,0);
+		
 		return false;
 	});
 	
