@@ -19,6 +19,7 @@
 	</header>
 	<div class="contentDiv">
 		<button class="obsolete " id="btn-loadFilmList">Details ausblenden</button>
+		<button class="obsolete " id="btn-reloadFilmList">Details erneutladen</button>
 		<div class="contentDivDetail" id="contentDivDetail">
 		</div>
 		<div class="contentDivTable">

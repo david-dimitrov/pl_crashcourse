@@ -7,6 +7,7 @@ $dataBase = new DB();
 //Entgegennahme und erste Verarbeitung Login-Daten
 $_SESSION["username"] = $_POST["username"] ?? null;
 $_SESSION["password"] = $_POST["password"] ?? ""; //GGF: Md5 -<-hier-<- implementieren
+$_SESSION["firstVisit"] = $_SESSION["firstVisit"] ?? true;
 
 //Berechnung
 //Anmeldestatus
@@ -17,6 +18,12 @@ if (!$status["boolLogin"])
 {
     $_SESSION["username"] = null;
     $_SESSION["password"] = "";
+    
+    if ($_SESSION["firstVisit"])
+    {
+        $status["returnMsg"] = "Sie sind noch nicht angemeldet.";
+        $_SESSION["firstVisit"] = false;
+    }
 }
 //Datenerfassung Content
 $contentData = $dataBase->getContents();

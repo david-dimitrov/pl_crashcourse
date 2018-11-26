@@ -156,7 +156,17 @@ class DB{
         return  $find;
     }
     
-    function editComment($username, $password, $plaintext, $mid, $cid)
+    /**
+     * Übernimmt die Prüfung und die Speicherung von neuen, geänderten oder gelöschten Kommentaren.
+     * @param unknown $username
+     * @param unknown $password
+     * @param unknown $plaintext
+     * @param unknown $mid
+     * @param unknown $cid
+     * @param unknown $del
+     * @return number
+     */
+    function editComment($username, $password, $plaintext, $mid, $cid, $del)
     {
         $logedin = $this->checkLogin($username, $password);
         if ($logedin["boolLogin"])
@@ -177,9 +187,10 @@ class DB{
                 $dbh = null;
                 return 0;
             }
-            else //!!! okay
+            else
             {
-                //edit
+                //edit || delete
+                //überprüfe die Rechte
                 $find = $dbh->prepare("SELECT COUNT(*) FROM `comment`,`user` WHERE `comment`.`cid`=? AND `comment`.`uid`= `user`.`uid` AND `user`.`name` = ?");
                 $find->execute(array($cid,$username));
                 $hasRight = $find->fetch()[0];
@@ -189,10 +200,20 @@ class DB{
                     return 3;
                 }
                 
-                $find = $dbh->prepare("UPDATE `comment` SET `text`= ? WHERE `comment`.`cid` = ?");
-                $find->execute(array($plaintext,$cid));
-
-                return 1;
+                //löschen oder bearbeiten
+                if (!($del == "true")){
+                    //bearbeiten
+                    $find = $dbh->prepare("UPDATE `comment` SET `text`= ? WHERE `comment`.`cid` = ?");
+                    $find->execute(array($plaintext,$cid));
+                    return 1;
+                }
+                else
+                {
+                    //löschen
+                    $find = $dbh->prepare("DELETE FROM `comment` WHERE `comment`.`cid` = ?");
+                    $find->execute(array($cid));
+                    return 4;
+                }
             }
         }
         else

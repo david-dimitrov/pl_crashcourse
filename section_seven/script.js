@@ -31,38 +31,74 @@ $( document ).ready(function() {
     	
 		//button offenlegen, der die Details wieder verschwinden lässt.
 		$("button#btn-loadFilmList").removeClass("obsolete");
+		$("button#btn-reloadFilmList").removeClass("obsolete");
 		$("div#contentDivDetail").removeClass("obsolete");
 		
 		
-		$("div#contentDivDetail").on('click','button#btn-sendNewUsercomment', sendComment);
+		$("div#contentDivDetail").off('click','button#btn-deleteUsercomment');
+		$("div#contentDivDetail").on('click','button#btn-deleteUsercomment', deleteComment);
+		$("div#contentDivDetail").off('click','button#btn-editUsercomment');
 		$("div#contentDivDetail").on('click','button#btn-editUsercomment', editComment);
-		
+		$("div#contentDivDetail").off('click','button#btn-sendNewUsercomment');
+		$("div#contentDivDetail").on('click','button#btn-sendNewUsercomment', sendComment);
+
 		return false;
 	});
 	
-	function sendComment(){
-		//entgegennahme
-		var plaintext = $("textarea#writeComment").val();
-		var cid = $("textarea#writeComment").attr("data-cid");
-		var mid = $("tbody#filmlistBody").attr("data-last");
+	$("button#btn-reloadFilmList").click(function() {
+		//Welcher Film ist gerade geladen?
+		var value = $("tbody#filmlistBody").attr("data-last");
+		//neu Laden der Inhalte
+		$.ajax({
+			type: "POST",
+			url: "reload.php",
+			data: {
+				method: "loadFilmDetail",
+				value: value
+			},
+			success: function(content) {
+				$("#contentDivDetail").html(content);
+			}
+		});
+		//den entsprechenden Knöpfen wieder funktionen zuweisen
+		$("div#contentDivDetail").off('click','button#btn-deleteUsercomment');
+		$("div#contentDivDetail").on('click','button#btn-deleteUsercomment', deleteComment);
+		$("div#contentDivDetail").off('click','button#btn-editUsercomment');
+		$("div#contentDivDetail").on('click','button#btn-editUsercomment', editComment);
+		$("div#contentDivDetail").off('click','button#btn-sendNewUsercomment');
+		$("div#contentDivDetail").on('click','button#btn-sendNewUsercomment', sendComment);
 		
-		if (plaintext){
+		return false;
+	});
+
+	function deleteComment(){
+		if (confirm("Sollen wir den Kommentar wirklich löschen?"))
+		{
+			//Kommentar Arbeitsfläche
+			var myComment = $(this).parent();
+			//die zu löschende cid
+			var cid = myComment.attr("data-cid");
+			//placeholder
+			var plaintext = "";
+			var mid = null;
+			
+			//serveranfrage
 			$.ajax({
 				type: "POST",
 				url: "comment.php",
 				data: {
 					plaintext: plaintext,
 					cid: cid,
-					mid: mid
+					mid: mid,
+					del: true
 				},
 				success: function(content) {
 					$("textarea#writeComment").parent().parent().html(content);
-					//display @writeComments*/
+					//Alterrierung des abgebildeten Kommentars
+					myComment.remove();
 				}
 			});
 		}
-		
-		return false;
 	}
 	
 	function editComment(){
@@ -77,19 +113,38 @@ $( document ).ready(function() {
 		$("button#btn-sendNewUsercomment").prev().val(plaintext);
 		$("button#btn-sendNewUsercomment").prev().attr("data-cid",cid);
 		$("button#btn-sendNewUsercomment").text("Änderungen senden");
+	}
+	
+	function sendComment(){
+		//entgegennahme
+		var plaintext = $("textarea#writeComment").val();
+		var cid = $("textarea#writeComment").attr("data-cid");
+		var mid = $("tbody#filmlistBody").attr("data-last");
 		
-		console.log(plaintext);
+		if (plaintext){
+			$.ajax({
+				type: "POST",
+				url: "comment.php",
+				data: {
+					plaintext: plaintext,
+					cid: cid,
+					mid: mid,
+					del: false
+				},
+				success: function(content) {
+					$("textarea#writeComment").parent().parent().html(content);
+				}
+			});
+		}
+		
+		return false;
 	}
 	
 	$("button#btn-loadFilmList").click(function() {
 		$("#contentDivDetail").addClass("obsolete");
 		$("button#btn-loadFilmList").addClass("obsolete");
+		$("button#btn-reloadFilmList").addClass("obsolete");
 		$("tbody#filmlistBody").children(".obsolete").attr("class","filmRow");
 	    return false;
 	});
-	
-	//test Fkt.
-	function invisibleButton () {
-		$("button#btn-sendNewUsercomment").attr("class","obsolete");
-	}
 });
