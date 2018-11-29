@@ -3,16 +3,25 @@
 body{}
 
 .loginForm{} /*Das Loginformular*/
-.loginNameDisplay{} /*Ersetzt Loginforumlar bei Erfolg*/
-.loginLabel{} /*Bei negativem Return des Login Formulares, erscheinende Textbox*/
+.loginForm label, .loginForm input,{width:100%}
+
+.loginNameDisplay,.loginMsgSuccess{text-align:center} /*Ersetzt Loginforumlar bei Erfolg*/
+.loginNameDisplay button{width:100%}
+
 .loginMsgSuccess{Background-color:#EFE}
 .loginMsgPwFail{Background-color:#FEE}
 .loginMsgUserDoesntExist{Background-color:#FFE}
 .loginMsgUserOverlap{Background-color:#EEF}
 
-.filmList td, .filmList th{padding:0em 1em 0em 1em; textalign:center}
-.filmList td{border: 1px solid black}
-.filmList th{border: 3px solid red}
+.contentDiv{}
+
+.contentDivButtons button{ width:100%}
+
+.filmList td, .filmList th{padding:0em 1em 0em 1em; text-align:center}
+.filmList td{/*border: 1px solid black*/}
+.filmList th{/*border: 3px solid red;*/ }
+.filmList tr{text-align: center}
+.filmList tr button{width: 100%}
 
 .obsolete{display: none}
 

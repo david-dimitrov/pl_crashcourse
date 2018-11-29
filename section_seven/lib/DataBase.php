@@ -10,7 +10,6 @@ class DB{
      */
     function checkLogin($username, $password)
     {
-        $password = md5($password);
         //Aufbau der Datenbankverbindung
         $dbh = new PDO('mysql:host=localhost;dbname=pl_crashcourse', "root", "");
         
@@ -22,10 +21,10 @@ class DB{
         }
         
         //Abfrage ob Nutzer existiert
-        $querry = $dbh->prepare("SELECT uid,name,password FROM `user` WHERE name = ?");
-        $querry->execute(array($username));
-        $userCount = $querry->rowCount();
-        $querry = $querry->fetch();
+        $query = $dbh->prepare("SELECT uid,name,password FROM `user` WHERE name = ?");
+        $query->execute(array($username));
+        $userCount = $query->rowCount();
+        $query = $query->fetch();
         //Ende der DB verbindung
         $dbh = null;
         
@@ -33,7 +32,7 @@ class DB{
         $return = null;
         if ($userCount == 1)
         {
-            if ($querry["name"] == $username && $querry["password"] == $password)
+            if ($query["name"] == $username && $query["password"] == $password)
             {
                 $return = array("boolLogin"     => true,
                                 "returnMsg"     => "Login erfolgreich",
@@ -63,26 +62,60 @@ class DB{
         return  $return;
     }
     
+    /**
+     * Legt neuen Nutzer an, falls alle entgegengenommenen Daten zulässig sind und der Nutzer noch nicht vergeben ist.
+     * @param unknown $username
+     * @param unknown $password
+     * @return boolean[]|string[]
+     */
     function register($username, $password)
     {
-        $password = md5($password);
         //Aufbau der Datenbankverbindung
         $dbh = new PDO('mysql:host=localhost;dbname=pl_crashcourse', "root", "");
         
         if (!isset($username))
         {
-            $status = array("boolLogin"     => false,
+            $status = array(
+                "boolLogin"     => false,
                 "returnMsg"     => "Ihr Username muss eindeutig sein!",
                 "loginMsgStyle" => "");
+            $dbh = null;
+            return $status;
+        }
+        elseif ($password == "d41d8cd98f00b204e9800998ecf8427e"){
+            $status = array(
+                "boolLogin"     => false,
+                "returnMsg"     => "Ein leeres Passwort ist nicht sicher. Bitte wählen Sie ein anderes.",
+                "loginMsgStyle" => "");
+            $dbh = null;
+            return $status;
         }
         
         //Abfrage ob Nutzer existiert
-        $querry = $dbh->prepare("SELECT uid,name,password FROM `user` WHERE name = ?");
-        $querry->execute(array($username));
-        $userCount = $querry->rowCount();
-        $querry = $querry->fetch();
+        $query = $dbh->prepare("SELECT uid FROM `user` WHERE name = ?");
+        $query->execute(array($username));
+        $userCount = $query->rowCount();
+        $query = $query->fetch();
 
-        //
+        //returns und neuen Eintrag setzen
+        if ($userCount != 0){
+            //Nutzer bereits vorhanden
+            $status = array(
+                "boolLogin"     => false,
+                "returnMsg"     => "Dieser Nutzername ist bereits vergeben.",
+                "loginMsgStyle" => "");
+        }
+        else 
+        {
+            //Neuer Nutzer wird angelegt
+            $query = $dbh->prepare("INSERT INTO `user`(`uid`, `name`, `password`) VALUES ('',?,?)");
+            $query->execute(array($username,$password));
+            //return setzen
+            $status = array(
+                "boolLogin"     => true,
+                "returnMsg"     => "Ihr Nutzerkonto wurde erfolgreich angelegt.",
+                "loginMsgStyle" => "");
+        }
         
         //Ende der DB verbindung
         $dbh = null;

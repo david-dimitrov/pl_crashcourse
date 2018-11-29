@@ -6,19 +6,24 @@ require_once ('lib/DataBase.php');
 $dataBase = new DB();
 //Entgegennahme und erste Verarbeitung Login-Daten
 $_SESSION["username"] = $_POST["username"] ?? null;
-$_SESSION["password"] = $_POST["password"] ?? ""; //GGF: Md5 -<-hier-<- implementieren
+$_SESSION["password"] = $_POST["password"] ?? "";
+$_SESSION["password"] = md5($_SESSION["password"]);
 $_SESSION["firstVisit"] = $_SESSION["firstVisit"] ?? true;
 $formType = $_POST["action"] ?? null;
 
 //Berechnung
 //Anmeldestatus
-if ($formType == "login")
+if ($formType == "login" || $formType == null)
 {
     $status = $dataBase->checkLogin($_SESSION["username"], $_SESSION["password"]);
 }
-elseif ($formType == "register")
+elseif ($formType == "registrieren")
 {
     $status = $dataBase->register($_SESSION["username"], $_SESSION["password"]);
+}
+else
+{
+    die("Es ist ein Fehler aufgetreten. bitte laden sie die Seite erneut.");
 }
 
 //Falls anmeldung erfolglos bleibt, soll Nutzername 'null' sein, damit abfragen während dem Nachladen richtig ausgeführt werden können.
