@@ -3,7 +3,7 @@
 body{}
 
 .loginForm{} /*Das Loginformular*/
-.loginForm label, .loginForm input,{width:100%}
+.loginForm label, .loginForm input{width:100%}
 
 .loginNameDisplay,.loginMsgSuccess{text-align:center} /*Ersetzt Loginforumlar bei Erfolg*/
 .loginNameDisplay button{width:100%}

@@ -22,7 +22,7 @@
 			{$__warning}
 		</div>
 	</div>
-	<div class="row align-items-center contentDiv">
+	<div class="row align-items-center">
 		<div class="col-xl-30 col-md-30 col-sm-30 col-xs-60">
 			<div class="row contentDivButtons">
 				<div class="col-xl-30 col-md-30 col-sm-60 col-xs-60">
@@ -32,10 +32,14 @@
 					<button class="obsolete " id="btn-reloadFilmList">Details erneutladen</button>
 				</div>
 			</div>
+		</div>
+	</div>
+	<div class="row contentDiv">
+		<div class="col-xl-30 col-md-30 col-sm-30 col-xs-60">
 			<div class="contentDivDetail" id="contentDivDetail">
 			</div>
 		</div>
-		<div class="col-xl-30 col-md-30 col-sm-30 col-xs-60">
+		<div class="col-xl-30 col-md-30 col-sm-30 col-xs-60 filmCommentSection" id="filmCommentSection">
 		</div>
 		<div class="contentDivTable">
 			{$__content}

@@ -18,6 +18,19 @@ $( document ).ready(function() {
 					$("#contentDivDetail").html(content);
 				}
 			});
+
+			//ersetze vorherige Kommentar-Section
+			$.ajax({
+				type: "POST",
+				url: "reload.php",
+				data: {
+					method: "loadFilmComments",
+					value: value
+				},
+				success: function(content) {
+					$("#filmCommentSection").html(content);
+				}
+			});
 			
 			//blende aktuelles Listenelement aus und das alte wieder ein
 			container.parent().attr("data-last",value);
@@ -33,14 +46,15 @@ $( document ).ready(function() {
 		$("button#btn-loadFilmList").removeClass("obsolete");
 		$("button#btn-reloadFilmList").removeClass("obsolete");
 		$("div#contentDivDetail").removeClass("obsolete");
+		$("div#filmCommentSection").removeClass("obsolete");
 		
 		
-		$("div#contentDivDetail").off('click','button#btn-deleteUsercomment');
-		$("div#contentDivDetail").on('click','button#btn-deleteUsercomment', deleteComment);
-		$("div#contentDivDetail").off('click','button#btn-editUsercomment');
-		$("div#contentDivDetail").on('click','button#btn-editUsercomment', editComment);
-		$("div#contentDivDetail").off('click','button#btn-sendNewUsercomment');
-		$("div#contentDivDetail").on('click','button#btn-sendNewUsercomment', sendComment);
+		$("div#filmCommentSection").off('click','button#btn-deleteUsercomment');
+		$("div#filmCommentSection").on('click','button#btn-deleteUsercomment', deleteComment);
+		$("div#filmCommentSection").off('click','button#btn-editUsercomment');
+		$("div#filmCommentSection").on('click','button#btn-editUsercomment', editComment);
+		$("div#filmCommentSection").off('click','button#btn-sendNewUsercomment');
+		$("div#filmCommentSection").on('click','button#btn-sendNewUsercomment', sendComment);
 		
 		window.scrollTo(0,0);
 		
@@ -62,13 +76,27 @@ $( document ).ready(function() {
 				$("#contentDivDetail").html(content);
 			}
 		});
+
+		//ersetze vorherige Kommentar-Section
+		$.ajax({
+			type: "POST",
+			url: "reload.php",
+			data: {
+				method: "loadFilmComments",
+				value: value
+			},
+			success: function(content) {
+				$("#filmCommentSection").html(content);
+			}
+		});
+		
 		//den entsprechenden Knöpfen wieder funktionen zuweisen
-		$("div#contentDivDetail").off('click','button#btn-deleteUsercomment');
-		$("div#contentDivDetail").on('click','button#btn-deleteUsercomment', deleteComment);
-		$("div#contentDivDetail").off('click','button#btn-editUsercomment');
-		$("div#contentDivDetail").on('click','button#btn-editUsercomment', editComment);
-		$("div#contentDivDetail").off('click','button#btn-sendNewUsercomment');
-		$("div#contentDivDetail").on('click','button#btn-sendNewUsercomment', sendComment);
+		$("div#filmCommentSection").off('click','button#btn-deleteUsercomment');
+		$("div#filmCommentSection").on('click','button#btn-deleteUsercomment', deleteComment);
+		$("div#filmCommentSection").off('click','button#btn-editUsercomment');
+		$("div#filmCommentSection").on('click','button#btn-editUsercomment', editComment);
+		$("div#filmCommentSection").off('click','button#btn-sendNewUsercomment');
+		$("div#filmCommentSection").on('click','button#btn-sendNewUsercomment', sendComment);
 		
 		return false;
 	});
@@ -143,9 +171,11 @@ $( document ).ready(function() {
 	}
 	
 	$("button#btn-loadFilmList").click(function() {
-		$("#contentDivDetail").addClass("obsolete");
+		$("div#contentDivDetail").addClass("obsolete");
+		$("div#filmCommentSection").addClass("obsolete");
 		$("button#btn-loadFilmList").addClass("obsolete");
 		$("button#btn-reloadFilmList").addClass("obsolete");
+
 		$("tbody#filmlistBody").children(".obsolete").attr("class","filmRow");
 	    return false;
 	});

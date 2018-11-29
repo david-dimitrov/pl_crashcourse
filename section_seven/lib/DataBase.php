@@ -215,6 +215,36 @@ class DB{
         return  $find;
     }
     
+    function getFilmComments($mid, $username, $password)
+    {
+        $dbh = new PDO('mysql:host=localhost;dbname=pl_crashcourse','root','');
+        
+        //unangemeldeten Nutzern wird "" zugewiesen, damit für sie keine CommentsUser angezeigt werden
+        $logedin = $this->checkLogin($username, $password)["boolLogin"];
+        $find["logedin"] = $logedin;
+        if (!$logedin){
+            $username = "";
+        }
+        
+        //Kommentar Daten erheben
+        $findCommentsUser       = $dbh->prepare("SELECT `comment`.`cid`,`comment`.`text` FROM `comment`,`user` WHERE `mid` = ? AND `user`.`name` = ? AND `comment`.`uid` = `user`.`uid`");
+        $findCommentsNonuser    = $dbh->prepare("SELECT `comment`.`text`,`user`.`name` FROM `comment`,`user` WHERE `mid` = ? AND `user`.`name` != ? AND `comment`.`uid` = `user`.`uid`");
+        //suchen
+        $findCommentsUser       ->execute(array($mid, $username));
+        $findCommentsNonuser    ->execute(array($mid, $username));
+        //verarbeiten
+        $findCommentsUser       = $findCommentsUser->fetchAll();
+        $findCommentsNonuser    = $findCommentsNonuser->fetchAll();
+        
+        $find["commentsUser"]   = $findCommentsUser;
+        $find["commentsNonuser"]= $findCommentsNonuser;
+        
+        
+        $dbh = null;
+        return  $find;
+        
+    }
+    
     /**
      * Übernimmt die Prüfung und die Speicherung von neuen, geänderten oder gelöschten Kommentaren.
      * @param unknown $username

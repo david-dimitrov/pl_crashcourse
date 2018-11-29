@@ -19,8 +19,16 @@ if($method == "loadFilmDetail")
     $tpl = new SMTemplate();
     $substitute = $tpl->showContent($data);
 }
+elseif ($method == "loadFilmComments")
+{
+    $data = $dataBase->getFilmComments($value, $_SESSION["username"], $_SESSION["password"]);
+    //Formating
+    $tpl = new SMTemplate();
+    $substitute = $tpl->showContent($data, "layout_commentDisplay");
+}
 else
 {
+    $dataBase = null;
     die("Es ist ein Fehler aufgetreten: <a href='index.php'>Zurück</a>");
 }
 
