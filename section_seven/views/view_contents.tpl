@@ -1,4 +1,4 @@
-<table class="filmList table table-striped table-dark table-hover">
+<table class="filmList table table-striped table-sm table-hover">
 	<thead>
 		<tr>
 			<th scope="col">Titel</th>

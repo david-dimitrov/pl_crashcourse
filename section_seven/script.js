@@ -47,6 +47,7 @@ $( document ).ready(function() {
 		$("button#btn-reloadFilmList").removeClass("obsolete");
 		$("div#contentDivDetail").removeClass("obsolete");
 		$("div#filmCommentSection").removeClass("obsolete");
+		$("div#contentDivDetail").parent("div.contentDiv").prev().prev("hr").removeClass("obsolete");
 		
 		
 		$("div#filmCommentSection").off('click','button#btn-deleteUsercomment');
@@ -170,11 +171,12 @@ $( document ).ready(function() {
 		return false;
 	}
 	
-	$("button#btn-loadFilmList").click(function() {
+	$("button#btn-loadFilmList").click(function() {//details ausblenden
 		$("div#contentDivDetail").addClass("obsolete");
 		$("div#filmCommentSection").addClass("obsolete");
 		$("button#btn-loadFilmList").addClass("obsolete");
 		$("button#btn-reloadFilmList").addClass("obsolete");
+		$("div#contentDivDetail").parent("div.contentDiv").prev().	prev("hr").addClass("obsolete");
 
 		$("tbody#filmlistBody").children(".obsolete").attr("class","filmRow");
 	    return false;

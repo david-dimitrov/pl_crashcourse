@@ -4,7 +4,6 @@ session_start();
 require_once ('lib/DataBase.php');
 require_once ('lib/smtemplate.php');
 $dataBase = new DB();
-
 //Post Variablen laden
 $method = $_POST["method"];
 $value = $_POST["value"];

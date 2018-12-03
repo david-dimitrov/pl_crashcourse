@@ -278,7 +278,7 @@ th {
   display: inline-block;
   font-family: 'Glyphicons Halflings';
   font-style: normal;
-  font-weight: normal;
+  font-weight: normal;ƒ
   line-height: 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -1087,7 +1087,7 @@ html {
 }
 body {
   font-family: 'Open Sans', sans-serif;
-  font-size: 12px;
+  font-size: 15px;
   line-height: 1.42857143;
   color: #4c4c4c;
   background-color: #f9f8f4;
