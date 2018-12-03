@@ -4,8 +4,8 @@ class DB{
      * Nimmt Parameter entgegen, stellt Verbindung mit Datenbank her
      * und überprüft, ob gefragte Nutzer in der Datenbank enthalten sind
      * 
-     * @param String $username | der angegebene Nutzername
-     * @param String $password | das angegebene Passwort in Plaintext
+     * @param der angegebene Nutzername
+     * @param das angegebene Passwort in Plaintext
      * @return NULL|boolean[]|string[]
      */
     function checkLogin($username, $password)
@@ -13,11 +13,22 @@ class DB{
         //Aufbau der Datenbankverbindung
         $dbh = new PDO('mysql:host=localhost;dbname=pl_crashcourse', "root", "");
         
+        //erster Test der Nutzernamen
         if (!isset($username))
-        {
-            $status = array("boolLogin"     => false,
-                            "returnMsg"     => "Sie sind nicht eingeloggt.",
-                            "loginMsgStyle" => "");
+        {   //leerer Name
+            return        array("boolLogin"     => false,
+                                "returnMsg"     => "Sie sind nicht eingeloggt.",
+                                "loginMsgStyle" => "");
+        }
+        else
+        {   //XSS Gefahr
+            $filteredUsername = strip_tags($username);
+            if ($username != $filteredUsername)
+            {
+                return    array("boolLogin"     => false,
+                                "returnMsg"     => "Ihr Nutzername beinhaltet unerlaubte Syntax. Bitte verwenden sie einen anderen.",
+                                "loginMsgStyle" => "class='loginMsgUserDoesntExist'");
+            }
         }
         
         //Abfrage ob Nutzer existiert
@@ -29,66 +40,69 @@ class DB{
         $dbh = null;
         
         //Passwort Prüfung
-        $return = null;
         if ($userCount == 1)
         {
             if ($query["name"] == $username && $query["password"] == $password)
             {
-                $return = array("boolLogin"     => true,
+                return    array("boolLogin"     => true,
                                 "returnMsg"     => "Login erfolgreich",
                                 "loginMsgStyle" => "class='loginMsgSuccess'");
             }
             else
             {
-                $return = array("boolLogin"     => false,
+                return    array("boolLogin"     => false,
                                 "returnMsg"     => "Nutzername existiert, aber das Passwort ist falsch.",
                                 "loginMsgStyle" => "class='loginMsgPwFail'");
             }
         }
         elseif ($userCount == 0)
         {
-                $return = array("boolLogin"     => false,
+                return    array("boolLogin"     => false,
                                 "returnMsg"     => "Es exisiert kein solcher Nutzer",
                                 "loginMsgStyle" => "class='loginMsgUserDoesntExist'");
         }
         else 
         {
-                $return = array("boolLogin"     => false,
+                return    array("boolLogin"     => false,
                                 "returnMsg"     =>  "Es existieren mehrere Nutzer mit diesem Namen.
                                                     <br>Das hätte nicht passieren dürfen!
                                                     <br>Bitte melden sie sich bei einem Admin oder dem Support.",
                                 "loginMsgStyle" => "class='loginMsgUserOverlap'");
         }
-        return  $return;
     }
     
     /**
      * Legt neuen Nutzer an, falls alle entgegengenommenen Daten zulässig sind und der Nutzer noch nicht vergeben ist.
-     * @param unknown $username
-     * @param unknown $password
+     * @param Nutzername
+     * @param Passwort
      * @return boolean[]|string[]
      */
     function register($username, $password)
     {
         //Aufbau der Datenbankverbindung
         $dbh = new PDO('mysql:host=localhost;dbname=pl_crashcourse', "root", "");
+        $filteredUsername = strip_tags($username);
         
         if (!isset($username))
         {
-            $status = array(
-                "boolLogin"     => false,
-                "returnMsg"     => "Ihr Username muss eindeutig sein!",
-                "loginMsgStyle" => "");
             $dbh = null;
-            return $status;
+            return    array("boolLogin"     => false,
+                            "returnMsg"     => "Ihr Username muss eindeutig sein!",
+                            "loginMsgStyle" => "");
+            
+        }
+        elseif ($username != $filteredUsername)
+        {
+            $dbh = null;
+            return    array("boolLogin"     => false,
+                            "returnMsg"     => "Ihr Nutzername beinhaltet unerlaubte Syntax. Bitte verwenden sie einen anderen.",
+                            "loginMsgStyle" => "class='loginMsgUserDoesntExist'");
         }
         elseif ($password == "d41d8cd98f00b204e9800998ecf8427e"){
-            $status = array(
-                "boolLogin"     => false,
-                "returnMsg"     => "Ein leeres Passwort ist nicht sicher. Bitte wählen Sie ein anderes.",
-                "loginMsgStyle" => "");
             $dbh = null;
-            return $status;
+            return    array("boolLogin"     => false,
+                            "returnMsg"     => "Ein leeres Passwort ist nicht sicher. Bitte wählen Sie ein anderes.",
+                            "loginMsgStyle" => "");
         }
         
         //Abfrage ob Nutzer existiert
@@ -196,7 +210,7 @@ class DB{
         if (!$logedin){
             $username = "";
         }
-        
+        /*
         //Kommentar Daten erheben
         $findCommentsUser       = $dbh->prepare("SELECT `comment`.`cid`,`comment`.`text` FROM `comment`,`user` WHERE `mid` = ? AND `user`.`name` = ? AND `comment`.`uid` = `user`.`uid`");
         $findCommentsNonuser    = $dbh->prepare("SELECT `comment`.`text`,`user`.`name` FROM `comment`,`user` WHERE `mid` = ? AND `user`.`name` != ? AND `comment`.`uid` = `user`.`uid`");
@@ -209,7 +223,7 @@ class DB{
         
         $find["commentsUser"]   = $findCommentsUser;
         $find["commentsNonuser"]= $findCommentsNonuser;
-        
+        */
         
         $dbh = null;
         return  $find;
@@ -271,6 +285,7 @@ class DB{
                 
                 //mid, uid, text
                 $find = $dbh->prepare("INSERT INTO `comment`(`cid`, `mid`, `uid`, `text`) VALUES ('',?,?,?)");
+                $plaintext = strip_tags($plaintext); //gegen xss
                 $find->execute(array($mid,$uid,$plaintext));
                 
                 $dbh = null;
@@ -289,6 +304,7 @@ class DB{
                     return 3;
                 }
                 
+                $plaintext = strip_tags($plaintext); //gegen xss
                 //löschen oder bearbeiten
                 if (!($del == "true")){
                     //bearbeiten

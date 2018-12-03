@@ -16,6 +16,13 @@ class SMTemplate extends Smarty{
         $this->config_dir = $smtemplate_config['config_dir'];
     }
     
+    /**
+     * Initialer render der Seite
+     * @param array $loginData Fakten über den Status der Anmeldung
+     * @param unknown $boolLogin Wahrheitswert, ob die Anmeldung erfolgreich war
+     * @param unknown $contentData Die Filmliste
+     * @param string $layout die standart Smaty-Template
+     */
     function render($loginData = array(), $boolLogin, $contentData, $layout = 'layout_page')
     {
         foreach($loginData as $key => $value){
@@ -47,7 +54,13 @@ class SMTemplate extends Smarty{
         $this->display($layout . '.tpl');
     }
     
-    function showContent($data = array(), $layout = 'layout_contentDisplay')
+    /**
+     * erzeugt die nachzuladende HTML Struktur bei anfrage
+     * @param array $data Film- oder Kommentardaten
+     * @param string $layout das zu verwendende Layout (entsprechend für Film oder Kommentare)
+     * @return string Die HTML Struktur
+     */
+    function showContent($data = array(), $layout = 'view_contentDisplay')
     {
         if (!isset($data))
         {

@@ -24,7 +24,7 @@ elseif ($method == "loadFilmComments")
     $data = $dataBase->getFilmComments($value, $_SESSION["username"], $_SESSION["password"]);
     //Formating
     $tpl = new SMTemplate();
-    $substitute = $tpl->showContent($data, "layout_commentDisplay");
+    $substitute = $tpl->showContent($data, "view_commentDisplay");
 }
 else
 {
