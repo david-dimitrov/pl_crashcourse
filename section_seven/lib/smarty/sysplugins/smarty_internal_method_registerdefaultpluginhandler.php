@@ -11,6 +11,7 @@
  */
 class Smarty_Internal_Method_RegisterDefaultPluginHandler
 {
+
     /**
      * Valid for Smarty and template object
      *
@@ -21,14 +22,16 @@ class Smarty_Internal_Method_RegisterDefaultPluginHandler
     /**
      * Registers a default plugin handler
      *
-     * @api  Smarty::registerDefaultPluginHandler()
+     * @api Smarty::registerDefaultPluginHandler()
+     *
      * @link http://www.smarty.net/docs/en/api.register.default.plugin.handler.tpl
-     *
-     * @param \Smarty_Internal_TemplateBase|\Smarty_Internal_Template|\Smarty $obj
-     * @param callable                                                        $callback class/method name
-     *
+     *      
+     * @param \Smarty_Internal_TemplateBase|\Smarty_Internal_Template|\Smarty $obj            
+     * @param callable $callback
+     *            class/method name
+     *            
      * @return \Smarty|\Smarty_Internal_Template
-     * @throws SmartyException              if $callback is not callable
+     * @throws SmartyException if $callback is not callable
      */
     public function registerDefaultPluginHandler(Smarty_Internal_TemplateBase $obj, $callback)
     {

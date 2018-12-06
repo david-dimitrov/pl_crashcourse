@@ -6,7 +6,7 @@ body{}
 button, input[class="button"]{color: #4c4c4c;background-color:/*#FFF*/#f9f8f4;border-top-color:#c3c3c3;border-right-color:#333333;border-bottom-color:#000000;border-left-color:#ffffff;border-radius:0.4em}
 button:hover, input[class="button"]:hover, button:focus, input[class="button"]:focus{animation: fadeToWhite 0.5s ease-in-out;color:#666666;background-color:#FFF}
 #btn-deleteUsercomment:hover, #btn-deleteUsercomment:focus{animation: fadeToRed 0.2s ease-out;color:#ededed;background-color:#e62a3f}
-#btn-logout:hover, #btn-logout:focus{animation: fadeToDark 0.8s ease-out;color:#f8f8f8;background-color:#323232;z-index:1}
+#btn-logout:hover, #btn-logout:focus{animation: fadeToDark 0.8s ease-out;color:#f8f8f8;background-color:#323232;z-index:2}
 input[class="button"][value="login"]:hover, input[class="button"][value="login"]:focus{animation: fadeToGreen 0.5s ease-in-out;color:#f8f8f8;background-color:#9ce29d}
 
 @keyframes fadeToWhite{
@@ -26,7 +26,7 @@ hr{border:0;border-top:2px solid #292929}
 .loginNameDisplay,.loginMsgSuccess{text-align:center} /*Ersetzt Loginforumlar bei Erfolg*/
 .loginNameDisplay button{width:100%}
 
-.loginMsgSuccess{-webkit-animation:fadeOut 10s ease-in-out;Background-color:#6ff378;opacity:0;z-index:2}
+.loginMsgSuccess{-webkit-animation:fadeOut 5s ease-in-out;Background-color:#6ff378;opacity:0;z-index:1}
 .loginMsgPwFail{-webkit-animation:reject 0.4s ease-in-out;Background-color:#FEE;text-align:center}
 .loginMsgUserDoesntExist{-webkit-animation:reject 0.4s ease-in-out;Background-color:#FFE;text-align:center}
 .loginMsgUserOverlap{Background-color:#EEF}
@@ -34,7 +34,7 @@ hr{border:0;border-top:2px solid #292929}
 	0% {opacity:1;color:#4c4c4cff;}
 	70% {color:#4c4c4cff;}
 	80% {opacity:1; color:#a0a0a0a0; transform:translate(0,0);}
-	100% {opacity:0; color:#ffffff00; transform:translate(0,-1em);}/*z-index für sachen in animationen??*/
+	100% {opacity:0; color:#ffffff00; transform:translate(0,-3em);}/*z-index für sachen in animationen??*/
 }
 @keyframes reject{
 	0% {transform:translate(0,0);}

@@ -1,13 +1,13 @@
 <?php
-//includes
+// includes
 session_start();
-require_once ('lib/DataBase.php');
+require_once ('lib/DB.php');
 require_once ('lib/smtemplate.php');
 $dataBase = new DB();
+
 function getData($param)
 {
-    switch ($param)
-    {
+    switch ($param) {
         case 0:
             $data = "Ihr Kommentar wurde erfolgreich eingereicht.";
             break;
@@ -29,14 +29,14 @@ function getData($param)
     return $data;
 }
 
-//Post Variablen laden
+// Post Variablen laden
 $plaintext = $_POST["plaintext"];
 $cid = $_POST["cid"];
 $mid = $_POST["mid"];
 $del = $_POST["del"];
-//Data
+// Data
 
-$caseSuccess = $dataBase->editComment($_SESSION["username"],$_SESSION["password"],$plaintext,$mid,$cid,$del);
+$caseSuccess = $dataBase->editComment($_SESSION["username"], $_SESSION["password"], $plaintext, $mid, $cid, $del);
 
 $data = getData($caseSuccess);
 

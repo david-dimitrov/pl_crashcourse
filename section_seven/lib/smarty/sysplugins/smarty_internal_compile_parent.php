@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of Smarty.
  *
@@ -15,6 +16,7 @@
  */
 class Smarty_Internal_Compile_Parent extends Smarty_Internal_Compile_Child
 {
+
     /**
      * Tag name
      *

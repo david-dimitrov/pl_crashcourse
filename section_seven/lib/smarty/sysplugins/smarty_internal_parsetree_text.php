@@ -16,10 +16,12 @@
  */
 class Smarty_Internal_ParseTree_Text extends Smarty_Internal_ParseTree
 {
+
     /**
      * Create template text buffer
      *
-     * @param string $data text
+     * @param string $data
+     *            text
      */
     public function __construct($data)
     {
@@ -29,7 +31,7 @@ class Smarty_Internal_ParseTree_Text extends Smarty_Internal_ParseTree
     /**
      * Return buffer content
      *
-     * @param \Smarty_Internal_Templateparser $parser
+     * @param \Smarty_Internal_Templateparser $parser            
      *
      * @return string text
      */

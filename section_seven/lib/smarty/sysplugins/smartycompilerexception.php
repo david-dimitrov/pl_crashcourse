@@ -7,7 +7,9 @@
  */
 class SmartyCompilerException extends SmartyException
 {
+
     /**
+     *
      * @return string
      */
     public function __toString()

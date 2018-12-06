@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Smarty plugin
  *
@@ -7,22 +8,23 @@
  */
 /**
  * Smarty default modifier plugin
- * Type:     modifier
- * Name:     default
- * Purpose:  designate default value for empty variables
+ * Type: modifier
+ * Name: default
+ * Purpose: designate default value for empty variables
  *
- * @link   http://www.smarty.net/manual/en/language.modifier.default.php default (Smarty online manual)
+ * @link http://www.smarty.net/manual/en/language.modifier.default.php default (Smarty online manual)
  * @author Uwe Tews
- *
- * @param array $params parameters
- *
+ *        
+ * @param array $params
+ *            parameters
+ *            
  * @return string with compiled code
  */
 function smarty_modifiercompiler_default($params)
 {
-    $output = $params[ 0 ];
-    if (!isset($params[ 1 ])) {
-        $params[ 1 ] = "''";
+    $output = $params[0];
+    if (! isset($params[1])) {
+        $params[1] = "''";
     }
     array_shift($params);
     foreach ($params as $param) {

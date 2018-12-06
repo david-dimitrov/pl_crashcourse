@@ -2,8 +2,8 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Film-Datenbank | Alle Filme auf einen Blick</title>
-	<link type="text/css" rel = "stylesheet" href= "lib/style.css">
 	<link type="text/css" rel="stylesheet" href="lib/bootstrap/css/bootstrap.css">
+	<link type="text/css" rel = "stylesheet" href= "lib/style.css">
 	<script src="//code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 	<script src="script.js" type="text/javascript"></script>
 </head>

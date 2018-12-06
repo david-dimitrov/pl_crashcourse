@@ -50,18 +50,15 @@ $( document ).ready(function() {
 		$("div#contentDivDetail").parent("div.contentDiv").prev().prev("hr").removeClass("obsolete");
 		
 		
-		$("div#filmCommentSection").off('click','button#btn-deleteUsercomment');
-		$("div#filmCommentSection").on('click','button#btn-deleteUsercomment', deleteComment);
-		$("div#filmCommentSection").off('click','button#btn-editUsercomment');
-		$("div#filmCommentSection").on('click','button#btn-editUsercomment', editComment);
-		$("div#filmCommentSection").off('click','button#btn-sendNewUsercomment');
-		$("div#filmCommentSection").on('click','button#btn-sendNewUsercomment', sendComment);
 		
 		window.scrollTo(0,0);
 		
 		return false;
 	});
 	
+	$("div#filmCommentSection").on('click','button#btn-deleteUsercomment', deleteComment);
+	$("div#filmCommentSection").on('click','button#btn-editUsercomment', editComment);
+	$("div#filmCommentSection").on('click','button#btn-sendNewUsercomment', sendComment);
 	$("button#btn-reloadFilmList").click(function() {
 		//Welcher Film ist gerade geladen?
 		var value = $("tbody#filmlistBody").attr("data-last");
@@ -90,14 +87,6 @@ $( document ).ready(function() {
 				$("#filmCommentSection").html(content);
 			}
 		});
-		
-		//den entsprechenden Knöpfen wieder funktionen zuweisen
-		$("div#filmCommentSection").off('click','button#btn-deleteUsercomment');
-		$("div#filmCommentSection").on('click','button#btn-deleteUsercomment', deleteComment);
-		$("div#filmCommentSection").off('click','button#btn-editUsercomment');
-		$("div#filmCommentSection").on('click','button#btn-editUsercomment', editComment);
-		$("div#filmCommentSection").off('click','button#btn-sendNewUsercomment');
-		$("div#filmCommentSection").on('click','button#btn-sendNewUsercomment', sendComment);
 		
 		return false;
 	});

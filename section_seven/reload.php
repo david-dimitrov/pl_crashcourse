@@ -1,38 +1,32 @@
 <?php
-//includes
+// includes
 session_start();
-require_once ('lib/DataBase.php');
+require_once ('lib/DB.php');
 require_once ('lib/smtemplate.php');
-$dataBase = new DB();
-//Post Variablen laden
+$dataBase = DB::getInstance();
+// Post Variablen laden
 $method = $_POST["method"];
 $value = $_POST["value"];
-//Data
+// Data
 $data = "";
 
-//berechnung
-if($method == "loadFilmDetail")
-{
+// berechnung
+if ($method == "loadFilmDetail") {
     $data = $dataBase->getFilmDetailContents($value, $_SESSION["username"], $_SESSION["password"]);
-    //Formating
+    // Formating
     $tpl = new SMTemplate();
     $substitute = $tpl->showContent($data);
-}
-elseif ($method == "loadFilmComments")
-{
+} elseif ($method == "loadFilmComments") {
     $data = $dataBase->getFilmComments($value, $_SESSION["username"], $_SESSION["password"]);
-    //Formating
+    // Formating
     $tpl = new SMTemplate();
     $substitute = $tpl->showContent($data, "view_commentDisplay");
-}
-else
-{
+} else {
     $dataBase = null;
     die("Es ist ein Fehler aufgetreten: <a href='index.php'>Zurück</a>");
 }
 
-
-//Output
+// Output
 $dataBase = null;
 
 echo $substitute;

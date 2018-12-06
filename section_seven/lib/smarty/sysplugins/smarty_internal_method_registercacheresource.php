@@ -11,6 +11,7 @@
  */
 class Smarty_Internal_Method_RegisterCacheResource
 {
+
     /**
      * Valid for Smarty and template object
      *
@@ -21,22 +22,21 @@ class Smarty_Internal_Method_RegisterCacheResource
     /**
      * Registers a resource to fetch a template
      *
-     * @api  Smarty::registerCacheResource()
-     * @link http://www.smarty.net/docs/en/api.register.cacheresource.tpl
+     * @api Smarty::registerCacheResource()
      *
-     * @param \Smarty_Internal_TemplateBase|\Smarty_Internal_Template|\Smarty $obj
-     * @param string                                                          $name name of resource type
-     * @param \Smarty_CacheResource                                           $resource_handler
+     * @link http://www.smarty.net/docs/en/api.register.cacheresource.tpl
+     *      
+     * @param \Smarty_Internal_TemplateBase|\Smarty_Internal_Template|\Smarty $obj            
+     * @param string $name
+     *            name of resource type
+     * @param \Smarty_CacheResource $resource_handler            
      *
      * @return \Smarty|\Smarty_Internal_Template
      */
-    public function registerCacheResource(
-        Smarty_Internal_TemplateBase $obj,
-        $name,
-        Smarty_CacheResource $resource_handler
-    ) {
+    public function registerCacheResource(Smarty_Internal_TemplateBase $obj, $name, Smarty_CacheResource $resource_handler)
+    {
         $smarty = $obj->_getSmartyObj();
-        $smarty->registered_cache_resources[ $name ] = $resource_handler;
+        $smarty->registered_cache_resources[$name] = $resource_handler;
         return $obj;
     }
 }

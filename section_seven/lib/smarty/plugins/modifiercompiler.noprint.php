@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Smarty plugin
  *
@@ -7,9 +8,9 @@
  */
 /**
  * Smarty noprint modifier plugin
- * Type:     modifier
- * Name:     noprint
- * Purpose:  return an empty string
+ * Type: modifier
+ * Name: noprint
+ * Purpose: return an empty string
  *
  * @author Uwe Tews
  * @return string with compiled code
