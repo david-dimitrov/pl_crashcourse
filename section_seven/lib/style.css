@@ -3,24 +3,22 @@
 body{}
 
 
-button, input[class="button"]{color: #4c4c4c;background-color:/*#FFF*/#f9f8f4;border-top-color:#c3c3c3;border-right-color:#333333;border-radius:0.4em}
-button:hover, input[class="button"]:hover{animation: fadeToWhite 0.5s ease-in-out;color:#666666;background-color:#FFF}
-#btn-deleteUsercomment:hover{animation: fadeToRed 0.2s ease-out;color:#ededed;background-color:#e62a3f}
-#btn-logout:hover{animation: fadeToDark 0.8s ease-out;color:#f8f8f8;background-color:#323232}
-input[class="button"][value="login"]:hover{animation: fadeToGreen 0.5s ease-in-out;color:#f8f8f8;background-color:#9ce29d}
+button, input[class="button"]{color: #4c4c4c;background-color:/*#FFF*/#f9f8f4;border-top-color:#c3c3c3;border-right-color:#333333;border-bottom-color:#000000;border-left-color:#ffffff;border-radius:0.4em}
+button:hover, input[class="button"]:hover, button:focus, input[class="button"]:focus{animation: fadeToWhite 0.5s ease-in-out;color:#666666;background-color:#FFF}
+#btn-deleteUsercomment:hover, #btn-deleteUsercomment:focus{animation: fadeToRed 0.2s ease-out;color:#ededed;background-color:#e62a3f}
+#btn-logout:hover, #btn-logout:focus{animation: fadeToDark 0.8s ease-out;color:#f8f8f8;background-color:#323232;z-index:1}
+input[class="button"][value="login"]:hover, input[class="button"][value="login"]:focus{animation: fadeToGreen 0.5s ease-in-out;color:#f8f8f8;background-color:#9ce29d}
+
 @keyframes fadeToWhite{
 	from{color:#4c4c4c;background-color:#f9f8f4}to{color:#666666;background-color:#FF}}
-
 @keyframes fadeToRed{
 	from{color:#4c4c4c;background-color:#f9f8f4}to{color:#ededed;background-color:#e62a3f}}
-
 @keyframes fadeToDark{
 	from{color:#4c4c4c;background-color:#f9f8f4}to{color:#f8f8f8;background-color:#323232}}
-
 @keyframes fadeToGreen{
-	from{color:#f8f8f8;background-color:#f9f8f4}to{background-color:#9ce29d}
-}
+	from{color:#f8f8f8;background-color:#f9f8f4}to{background-color:#9ce29d}}
 
+hr{border:0;border-top:2px solid #292929}
 
 .loginForm{} /*Das Loginformular*/
 .loginForm label, .loginForm input{width:100%}
@@ -28,26 +26,35 @@ input[class="button"][value="login"]:hover{animation: fadeToGreen 0.5s ease-in-o
 .loginNameDisplay,.loginMsgSuccess{text-align:center} /*Ersetzt Loginforumlar bei Erfolg*/
 .loginNameDisplay button{width:100%}
 
-.loginMsgSuccess{animation:fadeOut 15s ease-in-out;Background-color:#EFE}
-.loginMsgPwFail{Background-color:#FEE}
-.loginMsgUserDoesntExist{Background-color:#FFE}
+.loginMsgSuccess{-webkit-animation:fadeOut 10s ease-in-out;Background-color:#6ff378;opacity:0;z-index:2}
+.loginMsgPwFail{-webkit-animation:reject 0.4s ease-in-out;Background-color:#FEE;text-align:center}
+.loginMsgUserDoesntExist{-webkit-animation:reject 0.4s ease-in-out;Background-color:#FFE;text-align:center}
 .loginMsgUserOverlap{Background-color:#EEF}
 @keyframes fadeOut{
-	0 {opacity:1}
-	0.6 {opacity:1}
-	1 {opacity:0}
+	0% {opacity:1;color:#4c4c4cff;}
+	70% {color:#4c4c4cff;}
+	80% {opacity:1; color:#a0a0a0a0; transform:translate(0,0);}
+	100% {opacity:0; color:#ffffff00; transform:translate(0,-1em);}/*z-index für sachen in animationen??*/
+}
+@keyframes reject{
+	0% {transform:translate(0,0);}
+	7% {transform:translate(-0.2em,0);}
+	24% {transform:translate(0.2em,0);}
+	50% {transform:translate(-0.2em,0);}
+	75% {transform:translate(0.2em,0);}
+	100% {transform:translate(0,0);}
 }
 
 .contentDiv{margin-top:1em}
 .contentDivButtons button{ width:100%}
-/*dashier ggf. auskommentieren*/.contentDivDetail{background-color:#000; color:#FFF;padding:1em}/**/
+/*dashier ggf. auskommentieren*//*.contentDivDetail{background-color:#000; color:#FFF;padding:1em}/**/
 
 .filmCommentSection :first-child{margin-top:0em}
 
 .usercomment{border-color:#c3c3c3; border-width:1px; padding:1em 0.2em 0.5em 0.2em; margin-top:0.45em; border-radius:0.5em; border-style: solid; word-wrap: break-word}
-/*dashier ggf. auskommentieren*/.usercomment:hover{border-color:#8b8b8b;border-width:1.5px; padding:0.5em -0.3em 0em -0.3em} /**/
+/*dashier ggf. auskommentieren*//*.usercomment:hover{border-color:#8b8b8b;border-width:1.5px; padding:0.5em -0.3em 0em -0.3em} /**/
 .commentForm{margin-top:2em}
-.commentForm form textarea{width:100%; margin-top: 0.5em}
+#writeComment{width:100%; margin-top: 0.5em;resize:vertical;min-height:1.5em}/*.commentForm form textarea*/
 .commentForm form button{width:33%;margin-top: 0.5em}
 
 .filmList td, .filmList th{padding:0em 1em 0em 1em; text-align:center}
