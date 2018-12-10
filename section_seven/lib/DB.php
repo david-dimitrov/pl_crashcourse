@@ -7,6 +7,7 @@ class DB
     
     private function __construct(){
         $this->dbh = new PDO('mysql:host=localhost;dbname=pl_crashcourse', "root", "");
+//        session_start();
     }
     
     public function getInstance(){
@@ -40,7 +41,6 @@ class DB
         if (! isset($username)) { // leerer Name
             return array(
                 "boolLogin" => false,
-                "uid"       => null,
                 "template"  => "view_loginForm",
                 "loginMsg" => "Sie sind nicht eingeloggt.",
                 "loginMsgStyle" => ""
@@ -50,7 +50,6 @@ class DB
             if ($username != $filteredUsername) {
                 return array(
                     "boolLogin" => false,
-                    "uid"       => null,
                     "template"  => "view_loginForm",
                     "loginMsg" => "Ihr Nutzername beinhaltet unerlaubte Syntax. Bitte verwenden sie einen anderen.",
                     "loginMsgStyle" => "class='loginMsgUserDoesntExist'"
@@ -71,9 +70,9 @@ class DB
                 $query = $this->dbh->prepare("SELECT uid FROM `user` WHERE name = :name");
                 $query->execute(array("name" => $username));
                 $uid = $query->fetch()["uid"];
+                $_SESSION["status"] = $uid;
                 return array(
                     "boolLogin" => true,
-                    "uid"       => $uid,
                     "template"  => "view_loginNameDisplay",
                     "loginMsg" => "Login erfolgreich",
                     "loginMsgStyle" => "class='loginMsgSuccess'"
@@ -81,7 +80,6 @@ class DB
             } else {
                 return array(
                     "boolLogin" => false,
-                    "uid"       => null,    
                     "template"  => "view_loginForm",
                     "loginMsg" => "Nutzername existiert, aber das Passwort ist falsch.",
                     "loginMsgStyle" => "class='loginMsgPwFail'"
@@ -90,7 +88,6 @@ class DB
         } elseif ($userCount == 0) {
             return array(
                 "boolLogin" => false,
-                "uid"       => null,    
                 "template"  => "view_loginForm",
                 "loginMsg" => "Es exisiert kein solcher Nutzer",
                 "loginMsgStyle" => "class='loginMsgUserDoesntExist'"
@@ -98,7 +95,6 @@ class DB
         } else {
             return array(
                 "boolLogin" => false,
-                "uid"       => null,    
                 "template"  => "view_loginForm",
                 "loginMsg" => "Es existieren mehrere Nutzer mit diesem Namen.
                                                     <br>Das hätte nicht passieren dürfen!
@@ -121,22 +117,25 @@ class DB
     {
         // Aufbau der Datenbankverbindung
         $filteredUsername = strip_tags($username);
-        
+
         if (! isset($username)) {
             return array(
                 "boolLogin" => false,
+                "template"  => "view_loginForm",
                 "loginMsg" => "Ihr Username muss eindeutig sein!",
                 "loginMsgStyle" => ""
             );
         } elseif ($username != $filteredUsername) {
             return array(
                 "boolLogin" => false,
+                "template"  => "view_loginForm",
                 "loginMsg" => "Ihr Nutzername beinhaltet unerlaubte Syntax. Bitte verwenden sie einen anderen.",
                 "loginMsgStyle" => "class='loginMsgUserDoesntExist'"
             );
         } elseif ($password == "d41d8cd98f00b204e9800998ecf8427e") {
             return array(
                 "boolLogin" => false,
+                "template"  => "view_loginForm",
                 "loginMsg" => "Ein leeres Passwort ist nicht sicher. Bitte wählen Sie ein anderes.",
                 "loginMsgStyle" => ""
             );
@@ -155,21 +154,28 @@ class DB
             // Nutzer bereits vorhanden
             $status = array(
                 "boolLogin" => false,
+                "template"  => "view_loginForm",
                 "loginMsg" => "Dieser Nutzername ist bereits vergeben.",
                 "loginMsgStyle" => ""
             );
         } else {
             // Neuer Nutzer wird angelegt
-            $query = $dbh->prepare("INSERT INTO `user`(`name`, `password`) VALUES (:name,:password)");
+            $query = $this->dbh->prepare("INSERT INTO `user`(`name`, `password`) VALUES (:name,:password)");
             $query->execute(array(
                 "name" => $username,
                 "password" => $password
             ));
+            $query = $this->dbh->prepare("SELECT uid FROM `user` WHERE name = :name");
+            $query->execute(array("name" => $username));
+            $uid = $query->fetch()["uid"];
+            $_SESSION["status"] = $uid;
             // return setzen
             $status = array(
                 "boolLogin" => true,
+                "uid"       => $uid,
+                "template"  => "view_loginForm",
                 "loginMsg" => "Ihr Nutzerkonto wurde erfolgreich angelegt.",
-                "loginMsgStyle" => ""
+                "loginMsgStyle" => "class='loginMsgSuccess'"
             );
         }
         
@@ -254,34 +260,29 @@ class DB
         return $find;
     }
 
-    function getFilmComments($mid, $username, $password)
+    function getFilmComments($mid, $uid)
     {
-        // unangemeldeten Nutzern wird "" zugewiesen, damit für sie keine CommentsUser angezeigt werden
-        $logedin = $this->checkLogin($username, $password)["boolLogin"];
-        $find["logedin"] = $logedin;
-        if (! $logedin) {
-            $username = "";
+        // unangemeldeten Nutzern wird "0" zugewiesen, damit für sie keine CommentsUser angezeigt werden
+        if (!isset($uid)){
+            $uid = 0;
         }
-        
         // Kommentar Daten erheben
-        $findCommentsUser = $this->dbh->prepare("SELECT `comment`.`cid`,`comment`.`text` FROM `comment`,`user` WHERE `mid` = ? AND `user`.`name` = ? AND `comment`.`uid` = `user`.`uid`");
-        $findCommentsNonuser = $this->dbh->prepare("SELECT `comment`.`text`,`user`.`name` FROM `comment`,`user` WHERE `mid` = ? AND `user`.`name` != ? AND `comment`.`uid` = `user`.`uid`");
+        $findCommentsUser = $this->dbh->prepare("SELECT `comment`.`cid`,`comment`.`text` FROM `comment` WHERE `mid` = :movie AND `uid` = :user");
+        $findCommentsNonuser = $this->dbh->prepare("SELECT `comment`.`text`,`user`.`name` FROM `comment`,`user` WHERE `mid` = :movie AND `comment`.`uid` != :user AND  `user`.`uid` = `comment`.`uid`");
         // suchen
-        $findCommentsUser->execute(array(
-            $mid,
-            $username
-        ));
-        $findCommentsNonuser->execute(array(
-            $mid,
-            $username
-        ));
+        $target = array(
+            "movie" => $mid,
+            "user"  => $uid
+        );
+        $findCommentsUser->execute($target);
+        $findCommentsNonuser->execute($target);
+        
         // verarbeiten
         $findCommentsUser = $findCommentsUser->fetchAll();
         $findCommentsNonuser = $findCommentsNonuser->fetchAll();
         
         $find["commentsUser"] = $findCommentsUser;
         $find["commentsNonuser"] = $findCommentsNonuser;
-        
         return $find;
     }
 

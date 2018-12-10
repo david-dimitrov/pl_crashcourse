@@ -1,6 +1,9 @@
 <?php
 // includes
-session_start();
+if (session_status() != 2)
+{
+    session_start() or die("session konnte nicht aufgebaut werden.");    
+}
 require_once ('lib/DB.php');
 require_once ('lib/smtemplate.php');
 $dataBase = new DB();

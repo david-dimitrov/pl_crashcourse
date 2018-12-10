@@ -1,4 +1,8 @@
 <?php
+if (session_status() != 2)
+{
+    session_start() or die("session konnte nicht aufgebaut werden.");    
+}
 //DB, Smarty
 require_once ('lib/DB.php');
 require_once ('lib/smtemplate.php');
@@ -9,7 +13,5 @@ $status = $dbh->checkLogin($_POST["username"],md5($_POST["password"]));
 $status["username"] = $_POST["username"];
 
 $substitute = $tpl->showContent($status, $status["template"]);
-$_SESSION["status"] = $status["uid"];
-
 echo $substitute;
 ?>

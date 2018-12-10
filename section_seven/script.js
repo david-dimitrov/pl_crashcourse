@@ -3,6 +3,7 @@ $( document ).ready(function() {
 	$("div#filmCommentSection").on('click','button#btn-editUsercomment', editComment);
 	$("div#filmCommentSection").on('click','button#btn-sendNewUsercomment', sendComment);
 	$("div#loginForm").on('click','button#btn-login', login);
+	$("div#loginForm").on('click','button#btn-register', register);
 	
 	function login(){
 		var username = $("input#username").val();
@@ -11,6 +12,23 @@ $( document ).ready(function() {
 		$.ajax({
 			type: "POST",
 			url: "login.php",
+			data: {
+				username: username,
+				password: password
+			},
+			success: function(content) {
+				$("div#loginForm").html(content);
+			}
+		});
+	}
+	
+	function register() {
+		var username = $("input#username").val();
+		var password = $("input#password").val();
+		
+		$.ajax({
+			type: "POST",
+			url: "register.php",
 			data: {
 				username: username,
 				password: password
