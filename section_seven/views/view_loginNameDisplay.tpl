@@ -6,3 +6,6 @@
 		</form>
 	</div>
 </div>
+<div {$loginMsgStyle}>
+{$loginMsg}
+</div>

@@ -8,6 +8,7 @@ require_once ('lib/smtemplate.php');
 require_once ('lib/DB.php');
 $dataBase = DB::getInstance();
 // Entgegennahme und erste Verarbeitung Login-Daten
+$_SESSION["status"] = null;
 $_SESSION["username"] = $_POST["username"] ?? null;
 $_SESSION["password"] = $_POST["password"] ?? "";
 $_SESSION["password"] = md5($_SESSION["password"]);
@@ -29,7 +30,7 @@ if (! $status["boolLogin"]) {
     $_SESSION["password"] = "";
     
     if ($_SESSION["firstVisit"]) {
-        $status["returnMsg"] = "Sie sind noch nicht angemeldet.";
+        $status["loginMsg"] = "Sie sind noch nicht angemeldet.";
         $_SESSION["firstVisit"] = false;
     }
 }
@@ -38,7 +39,7 @@ $contentData = $dataBase->getContents();
 // Datenerfassung User & Login
 $loginData = array(
     "username" => $_SESSION["username"],
-    "loginMsg" => $status["returnMsg"],
+    "loginMsg" => $status["loginMsg"],
     "loginMsgStyle" => $status["loginMsgStyle"]
 );
 

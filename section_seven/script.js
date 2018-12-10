@@ -1,4 +1,26 @@
 $( document ).ready(function() {
+	$("div#filmCommentSection").on('click','button#btn-deleteUsercomment', deleteComment);
+	$("div#filmCommentSection").on('click','button#btn-editUsercomment', editComment);
+	$("div#filmCommentSection").on('click','button#btn-sendNewUsercomment', sendComment);
+	$("div#loginForm").on('click','button#btn-login', login);
+	
+	function login(){
+		var username = $("input#username").val();
+		var password = $("input#password").val();
+		
+		$.ajax({
+			type: "POST",
+			url: "login.php",
+			data: {
+				username: username,
+				password: password
+			},
+			success: function(content) {
+				$("div#loginForm").html(content);
+			}
+		});
+	}
+	
 	$("button#btn-loadFilmDetails").click(function() {
 		var container = $(this).parent().parent();//<tr> der den Button der gedrückt wurde beinhaltet.
 		var value = container.attr("data-value"); //die mid des Films, der dem Button zugeordnet ist.
@@ -56,9 +78,7 @@ $( document ).ready(function() {
 		return false;
 	});
 	
-	$("div#filmCommentSection").on('click','button#btn-deleteUsercomment', deleteComment);
-	$("div#filmCommentSection").on('click','button#btn-editUsercomment', editComment);
-	$("div#filmCommentSection").on('click','button#btn-sendNewUsercomment', sendComment);
+	
 	$("button#btn-reloadFilmList").click(function() {
 		//Welcher Film ist gerade geladen?
 		var value = $("tbody#filmlistBody").attr("data-last");

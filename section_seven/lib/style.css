@@ -7,7 +7,7 @@ button, input[class="button"]{color: #4c4c4c;background-color:/*#FFF*/#f9f8f4;bo
 button:hover, input[class="button"]:hover, button:focus, input[class="button"]:focus{animation: fadeToWhite 0.5s ease-in-out;color:#666666;background-color:#FFF}
 #btn-deleteUsercomment:hover, #btn-deleteUsercomment:focus{animation: fadeToRed 0.2s ease-out;color:#ededed;background-color:#e62a3f}
 #btn-logout:hover, #btn-logout:focus{animation: fadeToDark 0.8s ease-out;color:#f8f8f8;background-color:#323232;z-index:2}
-input[class="button"][value="login"]:hover, input[class="button"][value="login"]:focus{animation: fadeToGreen 0.5s ease-in-out;color:#f8f8f8;background-color:#9ce29d}
+#btn-login:hover, #btn-login:focus{animation: fadeToGreen 0.5s ease-in-out;color:#f8f8f8;background-color:#9ce29d}
 
 @keyframes fadeToWhite{
 	from{color:#4c4c4c;background-color:#f9f8f4}to{color:#666666;background-color:#FF}}
@@ -21,7 +21,7 @@ input[class="button"][value="login"]:hover, input[class="button"][value="login"]
 hr{border:0;border-top:2px solid #292929}
 
 .loginForm{} /*Das Loginformular*/
-.loginForm label, .loginForm input{width:100%}
+.loginForm label, .loginForm button, .loginForm input{width:100%}
 
 .loginNameDisplay,.loginMsgSuccess{text-align:center} /*Ersetzt Loginforumlar bei Erfolg*/
 .loginNameDisplay button{width:100%}

@@ -38,16 +38,12 @@ class SMTemplate extends Smarty
         
         // Login Formular
         if ($boolLogin) // wenn 1 - Eingeloggt | 0 - nicht Eingeloggt
-{
+        {
             $content = $this->fetch('view_loginNameDisplay.tpl');
         } else {
             $content = $this->fetch('view_loginForm.tpl');
         }
         $this->assign('__login', $content);
-        
-        // Warnschild
-        $content = $this->fetch('view_warning.tpl');
-        $this->assign('__warning', $content);
         
         // Content
         $content = $this->fetch('view_contents.tpl');

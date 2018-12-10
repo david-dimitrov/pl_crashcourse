@@ -18,6 +18,8 @@ class DB
     }
     
 /*    private function __destruct(){
+        self::$DB = null;
+        unset($this->dbh);
     }
 /**/        
     
@@ -38,7 +40,9 @@ class DB
         if (! isset($username)) { // leerer Name
             return array(
                 "boolLogin" => false,
-                "returnMsg" => "Sie sind nicht eingeloggt.",
+                "uid"       => null,
+                "template"  => "view_loginForm",
+                "loginMsg" => "Sie sind nicht eingeloggt.",
                 "loginMsgStyle" => ""
             );
         } else { // XSS Gefahr
@@ -46,7 +50,9 @@ class DB
             if ($username != $filteredUsername) {
                 return array(
                     "boolLogin" => false,
-                    "returnMsg" => "Ihr Nutzername beinhaltet unerlaubte Syntax. Bitte verwenden sie einen anderen.",
+                    "uid"       => null,
+                    "template"  => "view_loginForm",
+                    "loginMsg" => "Ihr Nutzername beinhaltet unerlaubte Syntax. Bitte verwenden sie einen anderen.",
                     "loginMsgStyle" => "class='loginMsgUserDoesntExist'"
                 );
             }
@@ -55,37 +61,46 @@ class DB
         // Aufbau der Datenbankverbindung
         // Abfrage ob Nutzer existiert
         $query = $this->dbh->prepare("SELECT uid,name,password FROM `user` WHERE name = ?");
-        $query->execute(array(
-            $username
-        ));
+        $query->execute(array($username));
         $userCount = $query->rowCount();
         $query = $query->fetch();
         
         // Passwort Prüfung
         if ($userCount == 1) {
             if ($query["name"] == $username && $query["password"] == $password) {
+                $query = $this->dbh->prepare("SELECT uid FROM `user` WHERE name = :name");
+                $query->execute(array("name" => $username));
+                $uid = $query->fetch()["uid"];
                 return array(
                     "boolLogin" => true,
-                    "returnMsg" => "Login erfolgreich",
+                    "uid"       => $uid,
+                    "template"  => "view_loginNameDisplay",
+                    "loginMsg" => "Login erfolgreich",
                     "loginMsgStyle" => "class='loginMsgSuccess'"
                 );
             } else {
                 return array(
                     "boolLogin" => false,
-                    "returnMsg" => "Nutzername existiert, aber das Passwort ist falsch.",
+                    "uid"       => null,    
+                    "template"  => "view_loginForm",
+                    "loginMsg" => "Nutzername existiert, aber das Passwort ist falsch.",
                     "loginMsgStyle" => "class='loginMsgPwFail'"
                 );
             }
         } elseif ($userCount == 0) {
             return array(
                 "boolLogin" => false,
-                "returnMsg" => "Es exisiert kein solcher Nutzer",
+                "uid"       => null,    
+                "template"  => "view_loginForm",
+                "loginMsg" => "Es exisiert kein solcher Nutzer",
                 "loginMsgStyle" => "class='loginMsgUserDoesntExist'"
             );
         } else {
             return array(
                 "boolLogin" => false,
-                "returnMsg" => "Es existieren mehrere Nutzer mit diesem Namen.
+                "uid"       => null,    
+                "template"  => "view_loginForm",
+                "loginMsg" => "Es existieren mehrere Nutzer mit diesem Namen.
                                                     <br>Das hätte nicht passieren dürfen!
                                                     <br>Bitte melden sie sich bei einem Admin oder dem Support.",
                 "loginMsgStyle" => "class='loginMsgUserOverlap'"
@@ -110,19 +125,19 @@ class DB
         if (! isset($username)) {
             return array(
                 "boolLogin" => false,
-                "returnMsg" => "Ihr Username muss eindeutig sein!",
+                "loginMsg" => "Ihr Username muss eindeutig sein!",
                 "loginMsgStyle" => ""
             );
         } elseif ($username != $filteredUsername) {
             return array(
                 "boolLogin" => false,
-                "returnMsg" => "Ihr Nutzername beinhaltet unerlaubte Syntax. Bitte verwenden sie einen anderen.",
+                "loginMsg" => "Ihr Nutzername beinhaltet unerlaubte Syntax. Bitte verwenden sie einen anderen.",
                 "loginMsgStyle" => "class='loginMsgUserDoesntExist'"
             );
         } elseif ($password == "d41d8cd98f00b204e9800998ecf8427e") {
             return array(
                 "boolLogin" => false,
-                "returnMsg" => "Ein leeres Passwort ist nicht sicher. Bitte wählen Sie ein anderes.",
+                "loginMsg" => "Ein leeres Passwort ist nicht sicher. Bitte wählen Sie ein anderes.",
                 "loginMsgStyle" => ""
             );
         }
@@ -140,7 +155,7 @@ class DB
             // Nutzer bereits vorhanden
             $status = array(
                 "boolLogin" => false,
-                "returnMsg" => "Dieser Nutzername ist bereits vergeben.",
+                "loginMsg" => "Dieser Nutzername ist bereits vergeben.",
                 "loginMsgStyle" => ""
             );
         } else {
@@ -153,7 +168,7 @@ class DB
             // return setzen
             $status = array(
                 "boolLogin" => true,
-                "returnMsg" => "Ihr Nutzerkonto wurde erfolgreich angelegt.",
+                "loginMsg" => "Ihr Nutzerkonto wurde erfolgreich angelegt.",
                 "loginMsgStyle" => ""
             );
         }

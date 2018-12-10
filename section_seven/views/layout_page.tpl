@@ -17,9 +17,8 @@
 		</div>
 		<div class="col-xl-20 col-md-20 col-sm-0 col-xs-60">
 		</div>
-		<div class="col-xl-20 col-md-20 col-sm-30 col-xs-60">
+		<div class="col-xl-20 col-md-20 col-sm-30 col-xs-60 loginForm" id="loginForm">
 			{$__login}
-			{$__warning}
 		</div>
 	</div>
 	<hr class="obsolete">

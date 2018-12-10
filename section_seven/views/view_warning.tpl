@@ -1,3 +1,0 @@
-<div {$loginMsgStyle}>
-{$loginMsg}
-</div>
