@@ -6,7 +6,7 @@ if (session_status() != 2)
 }
 require_once ('DB.php');
 require_once ('smtemplate.php');
-$dataBase = new DB();
+$dataBase = DB::getInstance();
 
 function getData($param)
 {
@@ -39,7 +39,7 @@ $mid = $_POST["mid"];
 $del = $_POST["del"];
 // Data
 
-$caseSuccess = $dataBase->editComment($_SESSION["username"], $_SESSION["password"], $plaintext, $mid, $cid, $del);
+$caseSuccess = $dataBase->editComment($_SESSION["status"], $plaintext, $mid, $cid, $del);
 
 $data = getData($caseSuccess);
 

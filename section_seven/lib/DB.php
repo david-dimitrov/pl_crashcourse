@@ -182,6 +182,16 @@ class DB
         return $status;
     }
 
+    function getUsername($uid){
+        if (isset($uid)){
+            $query = $this->dbh->prepare("SELECT `name` FROM `user` WHERE `uid` = :uid");
+            $query->execute(array("uid" => $uid));
+            $query = $query->fetch()[0];
+            return $query;
+        }
+        
+    }
+    
     /**
      * Stellt Verbindung mit Datenbank her und tut die Date, die für die Haupseite von Nöten sind fetchen.
      *
@@ -296,19 +306,11 @@ class DB
      * @param unknown $del            
      * @return number
      */
-    function editComment($username, $password, $plaintext, $mid, $cid, $del)
+    function editComment($uid, $plaintext, $mid, $cid, $del)
     {
-        $logedin = $this->checkLogin($username, $password);
-        if ($logedin["boolLogin"]) {
+        if (isset($uid)) {
             if ($cid == "none") {
                 // neuer Kommentar
-                // Daten erheben 'uid'
-                $find = $this->dbh->prepare("SELECT uid FROM `user` WHERE name = ?");
-                $find->execute(array(
-                    $username
-                ));
-                $uid = $find->fetch()["uid"];
-                
                 // mid, uid, text
                 $find = $this->dbh->prepare("INSERT INTO `comment`(`cid`, `mid`, `uid`, `text`) VALUES ('',?,?,?)");
                 $plaintext = strip_tags($plaintext); // gegen xss
@@ -322,10 +324,10 @@ class DB
             } else {
                 // edit || delete
                 // überprüfe die Rechte
-                $find = $this->dbh->prepare("SELECT COUNT(*) FROM `comment`,`user` WHERE `comment`.`cid`=? AND `comment`.`uid`= `user`.`uid` AND `user`.`name` = ?");
+                $find = $this->dbh->prepare("SELECT COUNT(*) FROM `comment` WHERE `comment`.`cid`=:cid AND `comment`.`uid`= :uid");
                 $find->execute(array(
-                    $cid,
-                    $username
+                    "cid" => $cid,
+                    "uid" => $uid
                 ));
                 $hasRight = $find->fetch()[0];
                 

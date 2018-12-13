@@ -1,5 +1,17 @@
 <?php
-session_start();
+if (session_status() != 2)
+{
+    session_start() or die("session konnte nicht aufgebaut werden.");    
+}
 unset($_SESSION["status"]);
-include_once '../index.php';
+unset($_POST["action"]);
+
+$data = array(
+    "loginMsg" => "Sie sind nicht eingeloggt.",
+    "loginMsgStyle" => ""
+);
+
+require_once 'smtemplate.php';
+$tpl = new SMTemplate();
+echo $tpl->showContent($data,"view_loginForm");
 ?>

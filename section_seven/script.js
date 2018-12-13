@@ -2,18 +2,27 @@ $( document ).ready(function() {
 	$("div#filmCommentSection").on('click','button#btn-deleteUsercomment', deleteComment);
 	$("div#filmCommentSection").on('click','button#btn-editUsercomment', editComment);
 	$("div#filmCommentSection").on('click','button#btn-sendNewUsercomment', sendComment);
-	$("div#loginForm").on('click','button#btn-login', login);
-	$("div#loginForm").on('click','button#btn-register', register);
+	$("div#loginForm").on('click','button#btn-login',{action:"login"},loginActions);
+	$("div#loginForm").on('click','button#btn-register',{action:"register"},loginActions);
+	$("div#loginForm").on('click','button#btn-logout',{action:"logout"},loginActions);
 	
-	function login(){
-		var username = $("input#username").val();
-		var password = $("input#password").val();
+	function loginActions(event){
+		var datalast = $("tbody.filmlistBody").attr("data-last");
+		console.log(datalast);
+		var action = event.data.action;
+		if (action != "logout"){
+			var username = $("input#username").val();
+			var password = $("input#password").val();
+		}else{
+			//var username = null;
+			//var password = null;
+		}
 		
 		$.ajax({
 			type: "POST",
 			url: "index.php",
 			data: {
-				action: "login",
+				action: action,
 				username: username,
 				password: password
 			},
@@ -21,24 +30,10 @@ $( document ).ready(function() {
 				$("div#loginForm").html(content);
 			}
 		});
-	}
-	
-	function register() {
-		var username = $("input#username").val();
-		var password = $("input#password").val();
-		
-		$.ajax({
-			type: "POST",
-			url: "index.php",
-			data: {
-				action: "register",
-				username: username,
-				password: password
-			},
-			success: function(content) {
-				$("div#loginForm").html(content);
-			}
-		});
+		/*
+		if (action != "register"){
+			reloadComments({value:datalast});
+		}/**/
 	}
 	
 	$("button#btn-loadFilmDetails").click(function() {
@@ -62,20 +57,7 @@ $( document ).ready(function() {
 				}
 			});
 
-			//ersetze vorherige Kommentar-Section
-			$.ajax({
-				type: "POST",
-				url: "index.php",
-				data: {
-					action: "reload",
-					method: "loadFilmComments",
-					value: value
-				},
-				success: function(content) {
-					$("#filmCommentSection").html(content);
-				}
-			});
-			
+			reloadComments({value:value});
 		}
 
 		//blende aktuelles Listenelement aus und das alte wieder ein
@@ -99,6 +81,21 @@ $( document ).ready(function() {
 		return false;
 	});
 	
+	function reloadComments(event){		
+		//ersetze vorherige Kommentar-Section
+		$.ajax({
+			type: "POST",
+			url: "index.php",
+			data: {
+				action: "reload",
+				method: "loadFilmComments",
+				value: event.value
+			},
+			success: function(content) {
+				$("#filmCommentSection").html(content);
+			}
+		});
+	}
 	
 	$("button#btn-reloadFilmList").click(function() {
 		//Welcher Film ist gerade geladen?
@@ -137,6 +134,7 @@ $( document ).ready(function() {
 	function deleteComment(){
 		if (confirm("Sollen wir den Kommentar wirklich löschen?"))
 		{
+			var datalast = $("tbody.filmlistBody").attr("data-last");
 			//Kommentar Arbeitsfläche
 			var myComment = $(this).parent();
 			//die zu löschende cid
@@ -162,6 +160,8 @@ $( document ).ready(function() {
 					myComment.remove();
 				}
 			});
+			reloadComments({value:datalast});
+
 		}
 	}
 	
@@ -180,6 +180,7 @@ $( document ).ready(function() {
 	}
 	
 	function sendComment(){
+		var datalast = $("tbody.filmlistBody").attr("data-last");
 		//entgegennahme
 		var plaintext = $("textarea#writeComment").val();
 		var cid = $("textarea#writeComment").attr("data-cid");
@@ -201,6 +202,7 @@ $( document ).ready(function() {
 				}
 			});
 		}
+		reloadComments({value:datalast});
 		
 		return false;
 	}
