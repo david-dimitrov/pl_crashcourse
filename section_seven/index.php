@@ -7,6 +7,14 @@ if (session_status() != 2)
 require_once ('lib/smtemplate.php');
 require_once ('lib/DB.php');
 $dataBase = DB::getInstance();
+$dataBase = DB::getInstance();
+
+if (isset($_POST["action"])){
+    $action = "lib/".$_POST["action"].".php";
+    include_once $action;
+    die();
+}
+
 // Entgegennahme und erste Verarbeitung Login-Daten
 $_SESSION["status"] = $_SESSION["status"] ?? null;
 $_SESSION["firstVisit"] = $_SESSION["firstVisit"] ?? true;

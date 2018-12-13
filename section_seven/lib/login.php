@@ -4,12 +4,12 @@ if (session_status() != 2)
     session_start() or die("session konnte nicht aufgebaut werden.");    
 }
 //DB, Smarty
-require_once ('lib/DB.php');
-require_once ('lib/smtemplate.php');
+require_once ('DB.php');
+require_once ('smtemplate.php');
 $dbh = DB::getInstance();
 $tpl = new SMTemplate();
 
-$status = $dbh->register($_POST["username"], md5($_POST["password"]));
+$status = $dbh->checkLogin($_POST["username"],md5($_POST["password"]));
 $status["username"] = $_POST["username"];
 
 $substitute = $tpl->showContent($status, $status["template"]);

@@ -45,6 +45,8 @@
 		{$__content}
 	</div>
 	<footer>
+<!--		<button id="handlerTest">ein Test</button>
+		<div></div>--!>
 	</footer>
 </div>
 </body>

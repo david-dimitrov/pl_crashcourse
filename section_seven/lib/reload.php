@@ -4,8 +4,8 @@ if (session_status() != 2)
     session_start() or die("session konnte nicht aufgebaut werden.");    
 }
 // includes
-require_once ('lib/DB.php');
-require_once ('lib/smtemplate.php');
+require_once ('DB.php');
+require_once ('smtemplate.php');
 $dataBase = DB::getInstance();
 
 // Post Variablen laden

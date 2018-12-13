@@ -11,8 +11,9 @@ $( document ).ready(function() {
 		
 		$.ajax({
 			type: "POST",
-			url: "login.php",
+			url: "index.php",
 			data: {
+				action: "login",
 				username: username,
 				password: password
 			},
@@ -28,8 +29,9 @@ $( document ).ready(function() {
 		
 		$.ajax({
 			type: "POST",
-			url: "register.php",
+			url: "index.php",
 			data: {
+				action: "register",
 				username: username,
 				password: password
 			},
@@ -49,8 +51,9 @@ $( document ).ready(function() {
 			//ersetze vorherige Details-Seite
 			$.ajax({
 				type: "POST",
-				url: "reload.php",
+				url: "index.php",
 				data: {
+					action: "reload",
 					method: "loadFilmDetail",
 					value: value
 				},
@@ -62,8 +65,9 @@ $( document ).ready(function() {
 			//ersetze vorherige Kommentar-Section
 			$.ajax({
 				type: "POST",
-				url: "reload.php",
+				url: "index.php",
 				data: {
+					action: "reload",
 					method: "loadFilmComments",
 					value: value
 				},
@@ -72,15 +76,16 @@ $( document ).ready(function() {
 				}
 			});
 			
-			//blende aktuelles Listenelement aus und das alte wieder ein
-			container.parent().attr("data-last",value);
-			if (oldValue == 0){
-				container.attr("class","obsolete");
-			}else{
-				container.siblings(".obsolete").attr("class","filmRow");
-				container.attr("class","obsolete");
-			}			
 		}
+
+		//blende aktuelles Listenelement aus und das alte wieder ein
+		container.parent().attr("data-last",value);
+		if (oldValue == 0){
+			container.attr("class","obsolete");
+		}else{
+			container.siblings(".obsolete").attr("class","filmRow");
+			container.attr("class","obsolete");
+		}			
     	
 		//button offenlegen, der die Details wieder verschwinden lässt.
 		$("button#btn-loadFilmList").removeClass("obsolete");
@@ -88,8 +93,6 @@ $( document ).ready(function() {
 		$("div#contentDivDetail").removeClass("obsolete");
 		$("div#filmCommentSection").removeClass("obsolete");
 		$("div#contentDivDetail").parent("div.contentDiv").prev().prev("hr").removeClass("obsolete");
-		
-		
 		
 		window.scrollTo(0,0);
 		
@@ -103,8 +106,9 @@ $( document ).ready(function() {
 		//neu Laden der Inhalte
 		$.ajax({
 			type: "POST",
-			url: "reload.php",
+			url: "index.php",
 			data: {
+				action: "reload",
 				method: "loadFilmDetail",
 				value: value
 			},
@@ -116,8 +120,9 @@ $( document ).ready(function() {
 		//ersetze vorherige Kommentar-Section
 		$.ajax({
 			type: "POST",
-			url: "reload.php",
+			url: "index.php",
 			data: {
+				action: "reload",
 				method: "loadFilmComments",
 				value: value
 			},
@@ -143,8 +148,9 @@ $( document ).ready(function() {
 			//serveranfrage
 			$.ajax({
 				type: "POST",
-				url: "comment.php",
+				url: "index.php",
 				data: {
+					action: "comment",
 					plaintext: plaintext,
 					cid: cid,
 					mid: mid,
@@ -182,8 +188,9 @@ $( document ).ready(function() {
 		if (plaintext){
 			$.ajax({
 				type: "POST",
-				url: "comment.php",
+				url: "index.php",
 				data: {
+					action: "comment",
 					plaintext: plaintext,
 					cid: cid,
 					mid: mid,
@@ -203,7 +210,7 @@ $( document ).ready(function() {
 		$("div#filmCommentSection").addClass("obsolete");
 		$("button#btn-loadFilmList").addClass("obsolete");
 		$("button#btn-reloadFilmList").addClass("obsolete");
-		$("div#contentDivDetail").parent("div.contentDiv").prev().	prev("hr").addClass("obsolete");
+		$("div#contentDivDetail").parent("div.contentDiv").prev().prev("hr").addClass("obsolete");
 
 		$("tbody#filmlistBody").children(".obsolete").attr("class","filmRow");
 	    return false;

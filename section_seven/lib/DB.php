@@ -18,11 +18,10 @@ class DB
         return self::$DB;
     }
     
-/*    private function __destruct(){
+    public function __destruct(){
         self::$DB = null;
         unset($this->dbh);
     }
-/**/        
     
     /**
      * Nimmt Parameter entgegen, stellt Verbindung mit Datenbank her
